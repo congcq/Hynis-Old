@@ -40,6 +40,7 @@ jobs:
         run: git submodule update --init --recursive
 
       - name: Setup glslang
+        continue-on-error: true
         run: |
           cd Natives/external/MobileGL/3rdparty/glslang
           ./update_glslang_sources.py
