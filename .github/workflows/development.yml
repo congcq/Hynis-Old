@@ -19,7 +19,7 @@ jobs:
           - platform: 2
             platform_name: ios
     
-    runs-on: J316sAP
+    runs-on: macos-latest
     steps:
       - name: Remove work folders
         run: |
@@ -29,12 +29,20 @@ jobs:
           rm -rf ./.??* || true
           echo "after"
           ls -lah ./
+
+      - name: Get dependencies
+        run: brew install ldid make temurin@8 vulkan-headers spirv-tools
           
       - name: Checkout repository
         uses: actions/checkout@main
 
       - name: Checkout repository submodules
         run: git submodule update --init --recursive
+
+      - name: Setup glslang
+        run: |
+          cd Natives/external/MobileGL/3rdparty/glslang
+          ./update_glslang_sources.py
 
       - name: Get gl4es latest commit hash
         id: gl4es-sha
